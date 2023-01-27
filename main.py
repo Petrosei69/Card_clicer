@@ -25,7 +25,6 @@ for i in range(len(lines)):
 with open('new_file.txt','w', encoding="utf-8") as tfile:
 	tfile.write('\n'.join(lines))
 
-
 file = open('new_file.txt', "r")
 all_words = []
 line = file.readline().split()
@@ -35,6 +34,8 @@ while line:
 
 arr1 = []
 result_list = []
+
+
 
 for i in range(len(all_words)):
     arr2 = []
@@ -51,12 +52,21 @@ for i in range(len(all_words)):
         arr1[i].insert(k + 6, '*')
     arr2.append(arr3)
 
+for i in range(len(arr1)):
+    arr1[i].insert(4, ' ')
+    arr1[i].insert(9, ' ')
+    arr1[i].insert(14, ' ')
+
+print(arr1[0][0])
+
+
 arr4 = []
 arr5 = []
 
 for i in range(len(arr1)):
     s = ''.join(map(str, arr1[i]))
     arr4.append(s)
+
 
 with open('array1.txt', 'w') as filehandle: filehandle.writelines("%s\n" % place for place in arr4)
 
@@ -65,4 +75,3 @@ for i in range(len(arr2)):
     arr5.append(q)
 
 with open('array2.txt', 'w') as filehandle: filehandle.writelines("%s\n" % place for place in arr5)
-
