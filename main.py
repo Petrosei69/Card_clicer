@@ -1,9 +1,24 @@
+import secrets
+import string
+import os
+from zipencrypt import ZipFile
+
+
+
 #  empty line cleaner
 with open('file.txt') as f:     # enter your filename
     lines = f.readlines()
     non_empty_lines = (line for line in lines if not line.isspace())
+
+    try:
+        os.mkdir(os.path.join(os.getcwd(), 'archive_files'))
+    except:
+        pass
+    os.chdir(os.path.join(os.getcwd(), 'archive_files'))
+
     with open('new_file.txt', 'w') as n_f:
         n_f.writelines(non_empty_lines)
+
 
 #  space cleaner
 def read2list(file):
@@ -22,7 +37,6 @@ with open('new_file.txt','w', encoding="utf-8") as tfile:
 	tfile.write('\n'.join(lines))
 
 # part of creating new files:  1.sequence with hidden numbers  2.hidden numbers only
-
 def cutter(new_file):
     file = open('new_file.txt', "r")
     all_words = []
@@ -60,19 +74,31 @@ def cutter(new_file):
         s = ''.join(map(str, arr1[i]))
         arr4.append(s)
 
-    with open('array1.txt', 'w') as filehandle:
+    with open('Array1.txt', 'w') as filehandle:
         filehandle.writelines("%s\n" % place for place in arr4)
 
     for i in range(len(arr2)):
         q = ''.join(map(str, arr2[i]))
         arr5.append(q)
 
-    with open('array2.txt', 'w') as filehandle:
+    with open('Array2.txt', 'w') as filehandle:
         filehandle.writelines("%s\n" % place for place in arr5)
 
     # print(f"arr1 ={arr1}")
     # print(f"arr2 ={arr2}")
     # print(f"arr4 ={arr4}")
     # print(f"arr5 ={arr5}")
-
 cutter('new_file.txt')
+
+
+# create password
+password = ''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(12))
+with open('password_for_archive.txt', 'w') as filehandle:
+    filehandle.writelines("%s" % place for place in password)
+# print(password)
+
+
+# archiving
+arr = bytes(password, 'utf-8')
+with ZipFile('Archivated_Array2.zip', "w") as myzip:
+    myzip.write('Array2.txt', pwd=arr)
